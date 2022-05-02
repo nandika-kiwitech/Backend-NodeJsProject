@@ -7,7 +7,7 @@ const upload = require("../middleware/multer")
 
 
 // signUp
-router.post("/create", upload.single('images'), users.create);
+router.post("/create",  users.create);
 
 // find all Users
 router.get("/findAll", users.findAll);
@@ -42,6 +42,6 @@ router.get("/allPost", mWare, users.findAllPost);
 router.get("/post", mWare, users.findPost);
 
 //fileUpload
-router.post("/upload", upload.array("images"),  users.filePost);
+router.post("/upload", mWare, upload.array("images"),  users.filePost);
 
 module.exports = router

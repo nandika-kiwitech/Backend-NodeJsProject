@@ -8,7 +8,9 @@ var upload = multer({
          cb(null, './uploads');
       },
       filename: function (req, file, cb) {
-            cb(null, file.originalname);      
+         var ext = path.extname(file.originalname)
+
+            cb(null, ext);      
       }
    }),
    

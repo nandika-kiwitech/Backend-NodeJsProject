@@ -4,10 +4,4 @@ const schema = mongoose.Schema({
     title: String,
     description: String
 });
-
-
-
-
-
-
 module.exports = mongoose.model("post", schema);

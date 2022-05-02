@@ -16,7 +16,7 @@ var schema = mongoose.Schema(
       pinCode: { type: Number },
       state: { type: String },
     }],
-    images: [{ type: Buffer, contentType: String }]
+    images: { type: Buffer }
   },
   { timestamps: true }
 );

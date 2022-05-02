@@ -24,12 +24,13 @@ module.exports = {
                     name: req.body.name,
                     age: req.body.age,
                     email: req.body.email,
-                    password: req.body.password,
+                    password: req.body.password, 
+                    // images: {
+                    //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+                    //     contentType: /jpeg|JPEG|jpg|png|gif/
+                    // }
                 })     
-                if(req.file){
-                  obj.images = req.file.path
-
-                }           
+                        
                 console.log(obj)
             }
             // Save Users in the database
@@ -232,9 +233,11 @@ module.exports = {
 
    //imageUpload
     filePost: async (req, res) => {
-    // var data = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {images: req.file}})  
-        console.log(req.file)
-        res.send(req.file)
+    var data = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {images: req.files}, upsert: true, returnNewDocument: true})
+    console.log(req.files)
+    // console.log(data)
+        // console.log(data)
+        res.send(data)
     },
  }
 
