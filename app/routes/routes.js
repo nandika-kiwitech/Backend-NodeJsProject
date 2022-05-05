@@ -4,10 +4,12 @@ const users = require("../controllers/controller.js");
 const mWare = require("../middleware/mware")
 var router = require("express").Router();
 const upload = require("../middleware/multer")
+const validMid = require("../middleware/joiValidator");
+const schemaa = require('../models/joiSchema')
 
 
 // signUp
-router.post("/create",  users.create);
+router.post("/create", validMid(schemaa.userSchema, 'body'), users.create);
 
 // find all Users
 router.get("/findAll", users.findAll);
@@ -22,14 +24,14 @@ router.post("/changePassword", mWare, users.changePassword);
 router.delete("/delete", mWare, users.delete);
 
 //Address
-router.post("/address", mWare, users.address);
+router.post("/address", mWare, validMid(schemaa.addSchema, 'body'), users.address);
 
 //updateAddress
-router.put("/updateAdd", mWare, users.updateAdd);
+router.put("/updateAdd", mWare,validMid(schemaa.addSchema, 'body'), users.updateAdd);
 
 
 //deleteAddress
-router.put("/updateAdd", mWare, users.deleteAdd);
+router.put("/deleteAdd/:id", mWare, validMid(schemaa.addSchema, 'params'),users.deleteAdd);
 
 
 //createPost
@@ -41,7 +43,17 @@ router.get("/allPost", mWare, users.findAllPost);
 //findPost
 router.get("/post", mWare, users.findPost);
 
+//aggregateUser
+router.get("/users_posts",mWare, users.aggregateUser);
+
+
 //fileUpload
 router.post("/upload", mWare, upload.array("images"),  users.filePost);
+
+//countryUpdate
+router.post("/country", mWare, users.Country);
+
+
+
 
 module.exports = router

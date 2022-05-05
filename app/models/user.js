@@ -2,25 +2,28 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 const { type } = require("express/lib/response");
 
-
-
 var schema = mongoose.Schema(
   {
     name: { type: String, required: true },
     age: { type: Number },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    repeat_password: {type: String},
     address: [{
       hNum: { type: Number },
       area: { type: String },
       pinCode: { type: Number },
       state: { type: String },
     }],
-    images: { type: Buffer }
+    images: [{
+      fieldname: {type: String},
+      originalname:{type: String},
+      mimetype:{type: String},
+      path: {type: String}
+     }]
   },
   { timestamps: true }
 );
-
 
 schema.pre('save', async function (next) {
 
@@ -47,5 +50,20 @@ schema.method("toJSON", function () {
 
 const User = mongoose.model("user", schema);
 
-
 module.exports = User
+
+
+
+
+
+
+
+// var countrySchema = mongoose.Schema(
+//   {
+//      userId: Number,
+//      country: String,
+//      city: String
+//   }
+// )
+
+// const Country = mongoose.model("country", countrySchema);
