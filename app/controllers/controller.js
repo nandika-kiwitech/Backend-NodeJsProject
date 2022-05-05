@@ -4,39 +4,46 @@ const bcrypt = require('bcryptjs');
 const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const path = require("path")
+const Country = require("../models/user");
+const schemaa = require('../models/joiSchema')
+
 
 // Create and Save a new User
 module.exports = {
     create: async (req, res) => {
-        // Validate request
         try {
-            const userInfo = await User.findOne({ email: req.body.email });
-
-            console.log(userInfo)
-            if (userInfo) {
-                res.status(200).json({ message: "Email already exists" })
-                console.log("email already exist")
+            const check = await User.findOne({ email: req.body.email })
+            if (check) {
+                console.log("Account already exist with this email")
+                res.send("Account already exist with this email")
             }
-
-            //create a User
             else {
-                var obj = new User({
-                    name: req.body.name,
-                    age: req.body.age,
-                    email: req.body.email,
-                    password: req.body.password, 
-                    // images: {
-                    //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-                    //     contentType: /jpeg|JPEG|jpg|png|gif/
-                    // }
-                })     
-                        
-                console.log(obj)
+                const user = new User(req.body)
+                user.save()
+                res.status(200).send({ message: "User created!!!" })
             }
-            // Save Users in the database
-            obj.save();
-            res.send(obj)
+            // const userInfo = await User.findOne({ email: req.body.email });
 
+            // console.log(userInfo)
+            // if (userInfo) {
+            //     res.status(200).json({ message: "Email already exists" })
+            //     console.log("email already exist")
+            // }
+
+            // //create a User
+            // else {
+            //     var obj = new User({
+            //         name: req.body.name,
+            //         age: req.body.age,
+            //         email: req.body.email,
+            //         password: req.body.password, 
+            //     })     
+
+            //     console.log(obj)
+            // }
+            // Save Users in the database
+            // obj.save();
+            // res.send(obj)
         }
         catch (error) {
             console.log("error", error)
@@ -231,13 +238,43 @@ module.exports = {
         res.send(findPost);
     },
 
-   //imageUpload
+    //imageUpload
     filePost: async (req, res) => {
-    var data = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {images: req.files}, upsert: true, returnNewDocument: true})
-    console.log(req.files)
-    // console.log(data)
+        var data = await User.findByIdAndUpdate({ _id: req.user.id }, { $push: { images: req.files.path }, upsert: true, returnNewDocument: true })
+        console.log(req.files)
+        // console.log(data)
         // console.log(data)
         res.send(data)
     },
- }
+
+
+    //countryUpdate
+    Country: async (req, res) => {
+        const country = new Country({
+            userId: req.user.id,
+            country: req.body.country,
+            city: req.body.city
+        })
+        console.log(country)
+        country.save();
+        res.send(country);
+    },
+
+
+    //userAggregation
+    aggregateUser: async (req, res) => {
+        try {
+            const findAllPost = await User.aggregate([{ $lookup: { from: "posts", localField: "_id", foreignField: "userId", as: "users" }, },]);
+
+            console.log("users", findAllPost)
+
+            res.send({ User: findAllPost });
+        }
+        catch (error) {
+            console.log("error", error)
+            res.send(error)
+        }
+    },
+
+}
 

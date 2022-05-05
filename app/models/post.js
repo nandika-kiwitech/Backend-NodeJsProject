@@ -1,7 +1,14 @@
 const mongoose  = require("mongoose");
 const schema = mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    userId:  { type: mongoose.Schema.Types.ObjectId },
     title: String,
     description: String
 });
 module.exports = mongoose.model("post", schema);
+
+
+// const schema = mongoose.Schema({
+//     userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+//     title: String,
+//     description: String
+// });
