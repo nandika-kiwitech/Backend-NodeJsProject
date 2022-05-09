@@ -5,8 +5,7 @@ const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const path = require("path")
 const Country = require("../models/user");
-const schemaa = require('../models/joiSchema')
-
+const emailTo = require('../nodemailer/transpoter')
 
 // Create and Save a new User
 module.exports = {
@@ -213,19 +212,23 @@ module.exports = {
 
     //findAllPost
     findAllPost: async (req, res) => {
+        
+
         try {
             let { page, limit } = req.query;
-            if (!page) {
-                page = 1;
-            }
-            if (!limit) {
-                limit = 2;
-            }
+            // if (!page) {
+            //     page = 1;
+            // }
+            // if (!limit) {
+            //     limit = 2;
+            // }
 
-            const findAllPost = await Post.find({ userId: req.user.id }).populate({ path: 'userId' }).limit(limit * 1).skip((page - 1) * limit);
+            const findAllPost = await Post.find({ userId: req.user.id, title: req.query.title }).populate({ path: 'userId'} ).limit(limit * 1).skip((page - 1) * limit);
             res.send({ page, limit, posts: findAllPost });
-        }
-        catch (error) {
+        
+    console.log(req.query.title)
+   
+  }  catch (error) {
             console.log("error", error)
             res.send(error)
         }
@@ -274,6 +277,21 @@ module.exports = {
             console.log("error", error)
             res.send(error)
         }
+    },
+
+
+    
+    sendEmail: async (req, res) => {
+        try{
+        const email = req.body.email;
+        emailTo(email)
+        console.log("sent mail")
+        res.send("email sent")
+    }
+    catch(error){
+        console.log("errrrrrrrrr",error)
+        res.send(error)
+    }
     },
 
 }

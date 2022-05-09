@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const db = require("./app/config/dbconfig");
-
+require('./app/nodemailer/transpoter')
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "hiiiii" });
