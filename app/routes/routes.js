@@ -24,14 +24,14 @@ router.post("/changePassword", mWare, users.changePassword);
 router.delete("/delete", mWare, users.delete);
 
 //Address
-router.post("/address", mWare, validMid(schemaa.addSchema, 'body'), users.address);
+router.post("/address", mWare, users.address);
 
 //updateAddress
-router.put("/updateAdd", mWare,validMid(schemaa.addSchema, 'body'), users.updateAdd);
+router.put("/updateAdd", mWare, users.updateAdd);
 
 
 //deleteAddress
-router.put("/deleteAdd/:id", mWare, validMid(schemaa.addSchema, 'params'),users.deleteAdd);
+router.put("/deleteAdd/:id", mWare,users.deleteAdd);
 
 
 //createPost
@@ -53,7 +53,8 @@ router.post("/upload", mWare, upload.array("images"),  users.filePost);
 //countryUpdate
 router.post("/country", mWare, users.Country);
 
-
+//email
+router.post("/email", users.sendEmail);
 
 
 module.exports = router

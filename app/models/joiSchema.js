@@ -10,11 +10,12 @@ const userSchema = Joi.object({
     .with('password', 'repeat_password');
 
 
-   const addSchema = Joi.object().keys({ address: [{
-        hNum: Joi.string().required(),
-        area: Joi.string().required(),
-        pinCode: Joi.number().min(6).max(6).required(),
-        state: Joi.string().min(3).max(15).required(),
-      }],
-    })
- module.exports = {userSchema, addSchema}
+//    const addSchema = Joi.object().keys({ address: [{
+//         hNum: Joi.string().required(),
+//         area: Joi.string().required(),
+//         pinCode: Joi.number().min(6).max(6).required(),
+//         state: Joi.string().min(3).max(15).required(),
+//       }],
+//     })
+
+ module.exports = userSchema

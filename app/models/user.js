@@ -48,15 +48,6 @@ schema.method("toJSON", function () {
   return object;
 });
 
-const User = mongoose.model("user", schema);
-
-module.exports = User
-
-
-
-
-
-
 
 // var countrySchema = mongoose.Schema(
 //   {
@@ -67,3 +58,14 @@ module.exports = User
 // )
 
 // const Country = mongoose.model("country", countrySchema);
+const User = mongoose.model("user", schema);
+
+module.exports = User
+
+
+
+
+
+
+
+

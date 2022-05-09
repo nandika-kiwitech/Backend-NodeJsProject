@@ -1,11 +1,11 @@
 
-// const Joi = require('joi'); 
+ const Joi = require('joi'); 
 const schemaa = require('../models/joiSchema')
 
 
 const middleware = (schema, property) => { 
   return (req, res, next) => { 
-  const { error } = schemaa.validate(req[property], schema); 
+  const { error } = schemaa.validate(req[property], schema) 
   const valid = error == null; 
   
   if (valid) { 
